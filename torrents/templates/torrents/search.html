@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+    <div class="col col-md-6">
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <button type="button" href="/torrents/search/movies" class="btn btn-outline-secondary">Movies</button>
+            <button type="button" href="/torrents/search/tvshows" class="btn btn-secondary">TV Shows</button>
+          </div>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col col-md-6">
+        <label for="exampleFormControlInput1" class="form-label">Torrent Search</label>
+        
+        <form action="/torrents/search/" method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="hidden" name="category" value="tvshows">
+                <input type="text" class="form-control" placeholder="Search by title" name="title" aria-label="Search" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% if torrents %}
+<table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Seeders</th>
+        <th scope="col">Upload Date</th>
+        <th scope="col">Size</th>
+        <th scope="col">Trusted</th>
+        <th scope="col">Category</th>
+        <th scope="col">Download</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for torrent in torrents %}
+            <tr>
+                <td>{{torrent.title}}</td>
+                <td>{{torrent.seeds}}</td>
+                <td>{{torrent.upload_date}}</td>
+                <td>{{torrent.filesize}}</td>
+                <td>{{torrent.is_trusted}}</td>
+                <td>{{torrent.category}}</td>
+                <td>
+                    <form action="/torrents/download/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="magnet" value="{{torrent.magnetlink}}">
+                        <button class="btn btn-dark" type="submit"><i class="bi bi-download"></i></button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock content %}
