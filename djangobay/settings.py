@@ -30,8 +30,8 @@ ALLOWED_HOSTS = ["*"]
 SYNOLOGY = {
     "host": "192.168.0.173",
     "port": "5000",
-    "username": "aixemple",
-    "password": "vuu9ihAZ3."
+    "username": "",
+    "password": ""
 }
 
 # Application definition
