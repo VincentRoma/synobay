@@ -28,10 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 SYNOLOGY = {
-    "host": "",
-    "port": "",
-    "username": "",
-    "password": ""
+    "host": "192.168.0.173",
+    "port": "5000",
+    "username": "aixemple",
+    "password": "vuu9ihAZ3."
 }
 
 # Application definition

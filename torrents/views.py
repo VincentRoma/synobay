@@ -15,8 +15,9 @@ from djangobay.settings import SYNOLOGY
 
 
 @login_required
-def search(request):
-     # if this is a POST request we need to process the form data
+def search(request, genre=None):
+    
+    # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = SearchForm(request.POST)
@@ -24,10 +25,14 @@ def search(request):
         if form.is_valid():
             t = TPB()
             title = form.cleaned_data['title']
-            torrents = t.search(title, order=ORDERS.SEEDERS.DES, category=CATEGORIES.VIDEO.HD_MOVIES)
-            return render(request, 'torrents/search.html', {'form': form, 'torrents': serialize_torrents(torrents)})
+            if genre == "movies":
+                torrents = t.search(title, order=ORDERS.SEEDERS.DES, category=CATEGORIES.VIDEO.HD_MOVIES)
+            if genre == "series":
+                torrents = t.search(title, order=ORDERS.SEEDERS.DES, category=CATEGORIES.VIDEO.HD_TV_SHOWS)
+            return render(request, 'torrents/search.html', {'form': form, 'torrents': serialize_torrents(torrents), 'genre': genre})
     else:
         form = SearchForm()
+    
 
     return render(request, 'torrents/search.html', {'form': form})
 
@@ -41,7 +46,8 @@ def download(request):
         if form.is_valid():
             dwn = downloadstation.DownloadStation(SYNOLOGY['host'], SYNOLOGY['port'], SYNOLOGY['username'], SYNOLOGY['password'])
             magnet = form.cleaned_data['magnet']
-            dwn.create_task(magnet)
+            destination = '/homes/aixemple/downloads/'+form.cleaned_data['genre']
+            dwn.create_uri_task(magnet,{'destination':destination})
         else:
             print(form.errors)
     return HttpResponseRedirect(reverse('torrents:downloading'))

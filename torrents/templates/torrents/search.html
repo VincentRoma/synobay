@@ -3,17 +3,9 @@
 {% block content %}
 <div class="row justify-content-md-center">
     <div class="col col-md-6">
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
-            <button type="button" href="/torrents/search/movies" class="btn btn-outline-secondary">Movies</button>
-            <button type="button" href="/torrents/search/tvshows" class="btn btn-secondary">TV Shows</button>
-          </div>
-    </div>
-</div>
-<div class="row justify-content-md-center">
-    <div class="col col-md-6">
         <label for="exampleFormControlInput1" class="form-label">Torrent Search</label>
         
-        <form action="/torrents/search/" method="post">
+        <form action="{{ request.path }}" method="post">
             {% csrf_token %}
             <div class="input-group mb-3">
                 <input type="hidden" name="category" value="tvshows">
@@ -49,6 +41,7 @@
                     <form action="/torrents/download/" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="magnet" value="{{torrent.magnetlink}}">
+                        <input type="hidden" name="genre" value="{{genre}}">
                         <button class="btn btn-dark" type="submit"><i class="bi bi-download"></i></button>
                     </form>
                 </td>

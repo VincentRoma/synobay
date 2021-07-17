@@ -5,3 +5,4 @@ class SearchForm(forms.Form):
 
 class DownloadForm(forms.Form):
     magnet = forms.CharField(label='Magnet', max_length=1000)
+    genre = forms.CharField(label='Genre', max_length=20)

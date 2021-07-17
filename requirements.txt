@@ -8,6 +8,6 @@ pytz==2021.1
 requests==2.25.1
 six==1.16.0
 sqlparse==0.4.1
-synology-api @ git+https://github.com/VincentRoma/synology-api@ade2ac142097c6ba05b39f5fc31c6bbdfd7aefa0
+synology-api @ git+https://github.com/VincentRoma/synology-api@master
 tpblite==0.8.0
 urllib3==1.26.6
